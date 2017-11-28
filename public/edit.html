@@ -1,0 +1,19 @@
+<h2>Edit Project {{projectName}}</h2>
+
+    <b>Researcher: </b><input class="form-control" ng-model="updatedProject.researcher" />
+    <br/>
+    <b>Name: </b><input class="form-control" ng-model="updatedProject.name" />
+    <br/>
+    <b>Type: </b><input class="form-control" ng-model="updatedProject.type" />
+    <br/>
+    <b>Start Date: </b><input class="form-control" ng-model="updatedProject.startDate" />
+    <br/>
+    <b>End Date: </b><input class="form-control" ng-model="updatedProject.endDate" />
+    <br/>
+    <b>Researchers: </b><textarea class="form-control" id="researchers" ng-model="updatedProject.researchers"
+                        rows="3" value="{{updatedProject.researchers}}"></textarea>
+    <br/>
+    <br/>
+
+    
+    <button class="btn btn-primary" ng-click="updateProject()">Update</button>

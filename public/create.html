@@ -1,0 +1,24 @@
+<div class="container">
+<h2>Create Project</h2>
+    <br/>
+    <br/>
+    
+    <b>Researcher: </b><input class="form-control" ng-model="newProject.researcher" />
+    <br/>
+    <b>Name: </b><input class="form-control" ng-model="newProject.name" />
+    <br/>
+    <b>Type: </b><input class="form-control" ng-model="newProject.type" />
+    <br/>
+    <b>Start Date: </b><input class="form-control" ng-model="newProject.startDate" />
+    <br/>
+    <b>End Date: </b><input class="form-control" ng-model="newProject.endDate" />
+    <br/>
+    <b>Researchers: </b><textarea class="form-control" id="researchers" ng-model="newProject.researchers"
+                        rows="3" value="{{newProject.researchers}}"></textarea>
+    <br/>
+    <br/>
+  
+    
+    <button class="btn btn-info" onclick="location.href='#!';">Back</button>
+    <button class="btn btn-primary" ng-click="createProject()">Create</button>
+</div>

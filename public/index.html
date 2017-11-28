@@ -1,0 +1,32 @@
+<html ng-app="ProjectManagerApp">
+<link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap-theme.min.css" type="text/css" />
+
+<script type="text/javascript" src="/bower_components/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/bower_components/angular/angular.min.js"></script>
+<script type="text/javascript" src="/bower_components/angular-route/angular-route.min.js"></script>
+
+
+<script type="text/javascript" src="project-manager-app.js"></script>
+<script type="text/javascript" src="list-ctrl.js"></script>
+<script type="text/javascript" src="edit-ctrl.js"></script>
+<script type="text/javascript" src="create-ctrl.js"></script>
+<script type="text/javascript" src="search-ctrl.js"></script>
+
+
+ <header>
+    <nav class="navbar navbar-default">
+    <div class="container">
+        <ul class="nav navbar-nav navbar-left">
+            <li><a href="#!/">Project List</a></li>
+            <li><a href="#!/search">Search Project</a></li>
+        </ul>
+    </div>
+    </nav>
+</header>
+<body>
+    <div ng-view></div>
+</body>
+
+</html>

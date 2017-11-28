@@ -1,0 +1,43 @@
+<html ng-app="RESTClientApp">
+    <link
+        rel="stylesheet"
+        href="/bower_components/bootstrap/dist/css/bootstrap.min.css"
+        type="text/css" />
+    <link
+        rel="stylesheet"
+        href="/bower_components/bootstrap/dist/css/bootstrap-theme.min.css"
+        type="text/css" />
+    <script
+        type="text/javascript"
+        src="/bower_components/jquery/dist/jquery.min.js"></script>
+    <script
+        type="text/javascript"
+        src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script
+        type="text/javascript"
+        src="/bower_components/angular/angular.min.js"></script>
+    <script>
+        var app = angular.module("RESTClientApp",[]);
+        console.log("App Initialized");
+        
+        app.controller("MainCtrl",["$scope","$http", function ($scope,$http){
+            
+            $scope.send = function (){
+                 $http
+                    .get($scope.url)
+                    .then(function (response){
+                        $scope.result = JSON.stringify(response.data,null,2);
+                    });
+            }
+
+        }]);
+        
+    </script>
+    <body ng-controller="MainCtrl">
+        <h2>REST CLient</h2>
+        <label>URL:</label>
+        <input ng-model="url"/>
+        <button class="btn btn-primary" ng-click="send()">Send</button>
+        <pre>{{result}}</pre>
+    </body>
+</html>
