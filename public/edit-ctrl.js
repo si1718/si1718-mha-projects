@@ -32,9 +32,9 @@ angular.module("ProjectManagerApp")
                 .then(function(response) {
                     $scope.researchers = response.data;
                      if($scope.researchers.length>0){
-                    $scope.researcher = $scope.researchers[0]; 
-                    $scope.researcherName =  $scope.researchers[0].name;
-                }
+                        $scope.researcher = $scope.researchers[0]; 
+                        $scope.researcherName =  $scope.researchers[0].name;
+                    }
                     
                 });
                   

@@ -1,0 +1,45 @@
+    <h2>Groups</h2> 
+   
+  <!-- <input class="form-control" id="searchInput" type="text" placeholder="Search for all fields...">-->
+  <!--<br>-->
+   <div class="table-responsive">
+    <table class="table table-condensed table-hover" cellspacing="0">
+       <thead>
+            <tr>
+                <th>Area</th>
+                <th>Name</th>
+                <th>Group id</th>
+                <th>Leader</th>
+                <th>Phone</th>
+                <th>Components</th>
+                <th>Lines Of Investigation</th>
+                <th>Group Activity (SIC codes)</th>
+                <th>Generated Technology (SIC codes)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="group in groups">
+                <td>{{group.scientificTechnicalArea}}</td>
+                <td>{{group.name}}</td>
+                <td>{{group.idGroup}}</td>
+                <td>{{group.leader}}</td>
+                <td>{{group.phone}}</td>
+                <td><table><tr ng-repeat="component in group.components">
+                    <td>{{component}}</td>
+                </tr></table></td>
+                <td><table><tr ng-repeat="lineInvest in group.linesOfInvestigation">
+                    <td>{{lineInvest}}</td>
+                </tr></table></td>
+                <td><table><tr ng-repeat="groupAct in group['groupActivity-SICcodes']">
+                    <td>{{groupAct}}</td>
+                </tr></table></td>
+                <td><table><tr ng-repeat="genTechnology in group['generatedTechnology-SICcodes']">
+                    <td>{{genTechnology}}</td>
+                </tr></table></td>
+                
+            </tr>
+        </tbody>
+       
+    </table>
+   </div>
+ 

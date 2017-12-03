@@ -12,6 +12,12 @@ angular.module("ProjectManagerApp", ["ngRoute"])
             }).when("/create",{
                 templateUrl: "create.html",
                 controller : "CreateCtrl"
+            }).when("/groups",{
+                templateUrl: "groups.html",
+                controller : "GroupsCtrl"
+            }).when("/graph",{
+                templateUrl: "graph.html",
+                controller : "GraphCtrl"
             });
         
         console.log("App Initialized");            
