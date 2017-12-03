@@ -108,7 +108,7 @@ angular.module("ProjectManagerApp")
                 .then(function(response) {
                     console.log("updated");
                     // $location.path("/");
-                    location.reload();
+                    $location.path("/");
                 }, function(error){
                     
                     if(String(error.status) != '200'){
@@ -136,7 +136,7 @@ angular.module("ProjectManagerApp")
                 .then(function(response) {
                     console.log("updated");
                     // $location.path("/project/"+$scope.projectId);
-                    location.reload();
+                    $location.path("/");
                 }, function(error){
                     
                  if(String(error.status) != '200'){
