@@ -1,6 +1,16 @@
+<div class="container">
 <h2>Edit Project {{projectName}}</h2>
 
-    <b>Researcher: </b><input class="form-control" ng-model="updatedProject.researcher" />
+    <b>Researcher: </b>
+    <div class="form-horizontal" style="display: flex;">
+            <input ng-disabled="muestraValida == false" class="form-control" ng-model="updatedProject.researcherName" />
+         <div ng-if="muestraValida == true">
+            <button class="btn btn-success" ng-click="validateProject()">Validate</button>
+        </div>
+        <div ng-if="muestraValida == false">
+            <button class="btn btn-warning" ng-click="changeProject()">Change</button>
+        </div>
+    </div>
     <br/>
     <b>Name: </b><input class="form-control" ng-model="updatedProject.name" />
     <br/>
@@ -10,10 +20,16 @@
     <br/>
     <b>End Date: </b><input class="form-control" ng-model="updatedProject.endDate" />
     <br/>
-    <b>Researchers: </b><textarea class="form-control" id="researchers" ng-model="updatedProject.researchers"
-                        rows="3" value="{{updatedProject.researchers}}"></textarea>
+    <b>Researchers: </b><input class="form-control" ng-model="updatedProject.researchers" />
     <br/>
+    <b>Keywords: </b><input class="form-control" ng-model="updatedProject.keywords" />
+  
     <br/>
-
-    
+    <div style="
+    color: red;
+    font-weight: bold;">
+        {{error}}
+        
+    </div>
     <button class="btn btn-primary" ng-click="updateProject()">Update</button>
+</div>

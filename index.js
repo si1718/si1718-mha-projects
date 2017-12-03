@@ -2,6 +2,7 @@
 /* global __dirname */
 
 var express = require("express");
+var cors = require("cors");
 var bodyParser = require("body-parser");
 var helmet = require("helmet");
 var mdb = require('mongodb');
@@ -14,9 +15,8 @@ var mdbURL = "mongodb://manuel:manuel@ds255455.mlab.com:55455/si1718-mha-project
 var port = (process.env.PORT || 10000);
 var BASE_API_PATH = "/api/v1";
 
-
-
 var app = express();
+app.use(cors());
 var db;
 app.use(express.static(path.join(__dirname,"public")));
 app.use(bodyParser.json()); //use default json enconding/decoding
@@ -44,66 +44,61 @@ MongoClient.connect(mdbURL,{native_parser:true},(err,database) =>{
 
 
 // GET a collection
-app.get(BASE_API_PATH + "/projects", function (request, response) {
-    console.log("INFO: New GET request to /projects");
-    db.find({}).toArray( function (err, projects) {
-        if (err) {
-            console.error('WARNING: Error getting data from DB');
-            response.sendStatus(500); // internal server error
-        } else {
-            console.log("INFO: Sending projects: " + JSON.stringify(projects, 2, null));
-            response.send(projects);
-        }
-    });
-});
+// app.get(BASE_API_PATH + "/projects", function (request, response) {
+//     console.log("INFO: New GET request to /projects");
+//     db.find({}).toArray( function (err, projects) {
+//         if (err) {
+//             console.error('WARNING: Error getting data from DB');
+//             response.sendStatus(500); // internal server error
+//         } else {
+//             console.log("INFO: Sending projects: " + JSON.stringify(projects, 2, null));
+//             response.send(projects);
+//         }
+//     });
+// });
 
 /*Get url params*/
-app.get(BASE_API_PATH + "/projects/search", function (request, response) {
+app.get(BASE_API_PATH + "/projects", function (request, response) {
+
+    console.log("INFO: New GET request to /projects");
     
-    let req_researcher = request.query.researcher;
-    let req_name = request.query.name;
-    let req_type = request.query.type;
-    let req_startDate = request.query.startDate;
-    let req_endDate = request.query.endDate;
-    let req_researchers = request.query.researchers;
-   
-    // let req_web = request.query.web;
-    var db_query = {"$and": []};
-
-    if(req_researcher){
-        db_query.$and.push({"researcher" : {$regex : ".*"+req_researcher+".*"}});
-    }
-    if(req_name){
-        db_query.$and.push({"name" : {$regex : ".*"+req_name+".*"}});
-    }
-    if(req_type){
-        db_query.$and.push({"type" : {$regex : ".*"+req_type+".*"}});
-    }
-    if(req_startDate){
-        db_query.$and.push({"startDate" : {$regex : ".*"+req_startDate+".*"}});
-    }
-    if(req_endDate){
-        db_query.$and.push({"endDate" : {$regex : ".*"+req_endDate+".*"}});
-    }
-    if(req_researchers){
-        db_query.$and.push({"researchers": {$elemMatch: {"researchers": {$regex: ".*"+req_researchers+".*"}}}});
-        //db_query.$and.push({"researchers": {$elemMatch: {".*": {$regex: ".*"+req_researcher+".*"}}}});
-    }
-
-console.log(db_query);
-    /*else{
-        db_query = {"researcher" : [{$regex : ".*"+req_researcher+".*"}]};
-        db_query =  {"researchers": {$elemMatch: {"school": {$regex: ".*"+req_school+".*"}}}}
-    }*/
-
-    db.find(db_query).toArray( function (err, projects) {
+    var researcherName = request.query.researcherName;
+    var name = request.query.name;
+    var type = request.query.type;
+    var startDate = request.query.startDate;
+    var endDate = request.query.endDate;
+    var researchers = request.query.researchers;
+    
+    var search = request.query.search;
+    var query;
+    
+    
+    if(search){
+        var searchStr = String(search);
         
+        query = { $or: [ { 'researcherName': { '$regex': searchStr,"$options":"i" } }, { 'name': searchStr }, { 'type': searchStr }, { 'startDate': searchStr }, { 'endDate': searchStr }, { 'researchers': searchStr }, { 'keywords': searchStr }]};
+
+    }
+    
+    console.info(request.query);
+    db.find(query).toArray( function (err, projects) {
+
         if (err) {
+
+            console.error('WARNING: Error getting data from DB');
+
             response.sendStatus(500); // internal server error
+
         } else {
+
+            console.log("INFO: Sending projects: " + JSON.stringify(projects, 2, null));
+
             response.send(projects);
+
         }
+
     });
+
 });
 
 // GET a single resource
@@ -143,7 +138,7 @@ app.post(BASE_API_PATH + "/projects", function (request, response) {
         response.sendStatus(400); // bad request
     } else {
         console.log("INFO: New POST request to /projects with body: " + JSON.stringify(newProject, 2, null));
-        if (!newProject.researcher || !newProject.name || !newProject.type) {
+        if (!newProject.researcherName || !newProject.name || !newProject.type) {
             console.log("WARNING: The project " + JSON.stringify(newProject, 2, null) + " is not well-formed, sending 422...");
             response.sendStatus(422); // unprocessable entity
         } else {
@@ -168,6 +163,14 @@ app.post(BASE_API_PATH + "/projects", function (request, response) {
                         
                         newProject.idProject = titleDate;
                         console.log("INFO: Adding project " + JSON.stringify(newProject, 2, null));
+                        //Pasamos los strings a colecciones tanto de researchers como de keywords
+                        var researchersCollection = researchersStrToCollection(newProject);
+                        
+                        newProject.researchers = researchersCollection;
+                        
+                        var keywordsCollection = keywordsStrToCollection(newProject);
+                        
+                        newProject.keywords = keywordsCollection;
                         db.insert(newProject);
                         response.sendStatus(201); // created
                     }
@@ -204,7 +207,7 @@ app.put(BASE_API_PATH + "/projects/:idProject", function (request, response) {
         response.sendStatus(400); // bad request
     } else {
         console.log("INFO: New PUT request to /projects/" + idProject + " with data " + JSON.stringify(updatedProject, 2, null));
-        if (!updatedProject.researcher || !updatedProject.name || !updatedProject.type){
+        if (!updatedProject.researcherName || !updatedProject.name || !updatedProject.type){
             console.log("WARNING: The project " + JSON.stringify(updatedProject, 2, null) + " is not well-formed, sending 422...");
             response.sendStatus(422); // unprocessable entity
         } else {
@@ -283,11 +286,7 @@ app.delete(BASE_API_PATH + "/projects/:idProject", function (request, response) 
 function generateIdProject(project) {
     //Delete spaces and convert to lowercase and replace strange characters
                         
-    /*
-    var patentJson = JSON.stringify(newPatent, 2, null);
-    var objectValue = JSON.parse(patentJson);
-    var titleStr = objectValue['title'];
-    */
+   
     var titleFormat = project.startDate;
     titleFormat = accents.remove(titleFormat).replace(/ /g,'');
     //Concatenate date
@@ -296,3 +295,27 @@ function generateIdProject(project) {
     return titleDate;
    
 }
+
+function researchersStrToCollection(project) {
+    var researchersCollection = [];
+                        
+        var split = project.researchers.split(",");
+        
+        for(var i in split){
+            researchersCollection.push(split[i]);
+        }
+    return researchersCollection;
+   
+} 
+
+function keywordsStrToCollection(project) {
+    var keywordsCollection = [];
+                        
+                        var split = project.keywords.split(",");
+                        
+                        for(var i in split){
+                            keywordsCollection.push(split[i]);
+                        }
+    return keywordsCollection;
+   
+} 

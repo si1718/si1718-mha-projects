@@ -8,17 +8,26 @@ angular.module("ProjectManagerApp")
                 .then(function(response) {
                     $scope.projects = response.data;
                 });
-            
-            // $scope.newProject={
-            //     idProject : "AAAAA",
-            //     researcher : "PEPE",
-            //     name : "i+d",
-            //     type : "123456",
-            //     startDate : "17/08/2017",
-            //     endDate : "17/08/2018"
-            // }
+          
         }
     
+    $scope.searchProjects = function(){
+            $http({
+                url: "/api/v1/projects",
+                params: $scope.tosearch
+            })
+                .then(function(response) {
+                    $scope.projects = response.data;
+                    
+                    if(String(response.status) == '200' && response.data.length == 0){
+                    
+                            $scope.error = "No projects found";
+                        
+            }
+
+                });
+            
+        }
 
         $scope.deleteProject = function (idProject){
             
@@ -29,17 +38,6 @@ angular.module("ProjectManagerApp")
                 });
             
         }
-        
-        // $scope.searchProjects = function(){
-        //     $http({
-        //         url: "/api/v1/projects",
-        //         params: $scope.tosearch
-        //     })
-        //         .then(function(response) {
-        //             $scope.projects = response.data;
-        //         });
-            
-        // }
         
 
         refresh();

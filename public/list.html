@@ -1,4 +1,10 @@
-    <h2>Projects</h2>
+    <h2 style="display: inline;">Projects</h2> 
+    <div class"search" style="float: right;">
+        <input ng-model="tosearch.search" />
+        <button type="button" style="background: transparent;border: 0;" ng-click="searchProjects()">
+          <span class="glyphicon glyphicon-search"></span>
+        </button>
+    </div>
   <!-- <input class="form-control" id="searchInput" type="text" placeholder="Search for all fields...">-->
   <!--<br>-->
     <table id="listProjectsTable" class="table">
@@ -18,13 +24,16 @@
            
             <tr ng-repeat="project in projects">
                 <td><a href="#!/project/{{project.idProject}}">{{project.idProject}}</a></td>
-                <td>{{project.researcher}}</td>
+                <td>{{project.researcherName}}</td>
                 <td>{{project.name}}</td>
                 <td>{{project.type}}</td>
                 <td>{{project.startDate}}</td>
                 <td>{{project.endDate}}</td>
-                <!--<td>{{project.researchers}}</td>-->
-               <td><span ng-repeat="researcher in project.researchers">{{researcher}}</br></span></td>
+               
+               <td>
+                   <div  ng-repeat="researchers in project.researchers">{{researchers}}</div>
+               </td>
+               <!--<td>{{project.keywords}}</td>-->
                 <td>
                     <button class="btn btn-danger" ng-click="deleteProject(project.idProject)">Delete</button>
                 </td>
@@ -33,5 +42,12 @@
        
     </table>
     <br/>
-    <button class="btn btn-success" onclick="location.href='#!/create';">Create project</button>
+    <div style="
+    color: red;
+    font-weight: bold;">
+        {{error}}
+        
+    </div>
+    <br/>
+    <button class="btn btn-primary" onclick="location.href='#!/create';">Create project</button>
  

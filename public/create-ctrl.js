@@ -15,9 +15,7 @@ angular.module("ProjectManagerApp")
             
             $scope.createProject = function (){
               
-            if($scope.newProject.researchers.length > 0) {
-                    $scope.newProject.researchers = $scope.newProject.researchers.split(",");
-                }
+            
              $http
                 .post("/api/v1/projects",$scope.newProject)
                 .then(function(response) {
@@ -25,13 +23,19 @@ angular.module("ProjectManagerApp")
                 }, function(error){
                     console.log(error.status);
                     
-                    if(error.status == '422'){
-                        $scope.error = "Please review the information entered in the fields";
-                    }
-                    if(error.status == '409'){
-                        $scope.error = "There is another project with same name and date";
-                    }
-                    //alert(error.data);
+                    if(String(error.status) != '200'){
+                        switch (String(error.status)) {
+                            case '422':
+                                $scope.error = "Please review the information entered in the fields";
+                                break;
+                            case '409':
+                                $scope.error = "There is another patent with same name and date";
+                                break;
+                            default:
+                                $scope.error = "Error, please contact administrator";
+                        }
+                    
+                    } 
                 });
             
             }

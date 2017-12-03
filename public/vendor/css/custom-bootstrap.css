@@ -1,0 +1,8 @@
+.navbar-red {
+    background-color: #41000C !important;
+}
+
+.navbar-red li a,
+.navbar-red .navbar-brand {
+    color: #ffffff !important;
+}
