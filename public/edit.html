@@ -3,7 +3,9 @@
 
     <b>Researcher: </b>
     <div class="form-horizontal" style="display: flex;">
-            <input ng-disabled="muestraValida == false" class="form-control" ng-model="updatedProject.researcherName" />
+            <input disabled ng-if="muestraValida == false" class="form-control" ng-model="updatedProject.researcherName" />
+             <input ng-if="muestraValida == true" class="form-control" ng-model="updatedProject.researcher" />
+             <!--<input ng-disabled="muestraValida == false" class="form-control" ng-model="updatedProject.researcherName" />-->
          <div ng-if="muestraValida == true">
             <button class="btn btn-success" ng-click="validateProject()">Validate</button>
         </div>

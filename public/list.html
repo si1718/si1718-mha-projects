@@ -25,7 +25,8 @@
            
             <tr ng-repeat="project in projects">
                 <td><a href="#!/project/{{project.idProject}}">{{project.idProject}}</a></td>
-                <td>{{project.researcherName}}</td>
+                <td ng-if="project.researcher.includes('https://')">{{project.researcherName}}</td>
+                <td ng-if="!project.researcher.includes('https://')">{{project.researcher}}</td>
                 <td>{{project.name}}</td>
                 <td>{{project.type}}</td>
                 <td>{{project.startDate}}</td>

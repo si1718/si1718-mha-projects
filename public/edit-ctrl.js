@@ -107,7 +107,7 @@ angular.module("ProjectManagerApp")
                 .put("/api/v1/projects/"+$scope.projectId,$scope.updatedProject)
                 .then(function(response) {
                     console.log("updated");
-                    // $location.path("/");
+                    //$location.path("/");
                     location.reload();
                 }, function(error){
                     
@@ -130,7 +130,7 @@ angular.module("ProjectManagerApp")
         
         $scope.changeProject = function (){
               delete $scope.updatedProject._id;
-            $scope.updatedProject.researcher = "";
+            $scope.updatedProject.researcher = $scope.updatedProject.researcherName;
             $http
                 .put("/api/v1/projects/"+$scope.projectId,$scope.updatedProject)
                 .then(function(response) {

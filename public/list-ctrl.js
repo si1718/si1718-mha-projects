@@ -7,6 +7,7 @@ angular.module("ProjectManagerApp")
                 .get("/api/v1/projects")
                 .then(function(response) {
                     $scope.projects = response.data;
+                   
                 });
           
         }
