@@ -24,16 +24,16 @@
                 <td>{{group.idGroup}}</td>
                 <td>{{group.leader}}</td>
                 <td>{{group.phone}}</td>
-                <td><table><tr ng-repeat="component in group.components">
+                <td><table><tr ng-repeat="component in group.components track by $index">
                     <td>{{component}}</td>
                 </tr></table></td>
-                <td><table><tr ng-repeat="lineInvest in group.linesOfInvestigation">
+                <td><table><tr ng-repeat="lineInvest in group.linesOfInvestigation track by $index">
                     <td>{{lineInvest}}</td>
                 </tr></table></td>
-                <td><table><tr ng-repeat="groupAct in group['groupActivity-SICcodes']">
+                <td><table><tr ng-repeat="groupAct in group['groupActivity-SICcodes'] track by $index">
                     <td>{{groupAct}}</td>
                 </tr></table></td>
-                <td><table><tr ng-repeat="genTechnology in group['generatedTechnology-SICcodes']">
+                <td><table><tr ng-repeat="genTechnology in group['generatedTechnology-SICcodes'] track by $index">
                     <td>{{genTechnology}}</td>
                 </tr></table></td>
                 
