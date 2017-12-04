@@ -138,7 +138,7 @@ app.post(BASE_API_PATH + "/projects", function (request, response) {
         response.sendStatus(400); // bad request
     } else {
         console.log("INFO: New POST request to /projects with body: " + JSON.stringify(newProject, 2, null));
-        if (!newProject.researcherName || !newProject.name || !newProject.type) {
+        if (!newProject.researcher || !newProject.name || !newProject.type) {
             console.log("WARNING: The project " + JSON.stringify(newProject, 2, null) + " is not well-formed, sending 422...");
             response.sendStatus(422); // unprocessable entity
         } else {
@@ -207,7 +207,7 @@ app.put(BASE_API_PATH + "/projects/:idProject", function (request, response) {
         response.sendStatus(400); // bad request
     } else {
         console.log("INFO: New PUT request to /projects/" + idProject + " with data " + JSON.stringify(updatedProject, 2, null));
-        if (!updatedProject.researcherName || !updatedProject.name || !updatedProject.type){
+        if (!updatedProject.researcher || !updatedProject.name || !updatedProject.type){
             console.log("WARNING: The project " + JSON.stringify(updatedProject, 2, null) + " is not well-formed, sending 422...");
             response.sendStatus(422); // unprocessable entity
         } else {
