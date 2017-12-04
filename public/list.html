@@ -33,7 +33,7 @@
                 <td>{{project.endDate}}</td>
                
                <td>
-                   <div  ng-repeat="researchers in project.researchers">{{researchers}}</div>
+                   <div  ng-repeat="researchers in project.researchers track by $index">{{researchers}}</div>
                </td>
                <!--<td>{{project.keywords}}</td>-->
                 <td>
