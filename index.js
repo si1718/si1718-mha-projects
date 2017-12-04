@@ -76,7 +76,7 @@ app.get(BASE_API_PATH + "/projects", function (request, response) {
     if(search){
         var searchStr = String(search);
         
-        query = { $or: [ { 'researcherName': { '$regex': searchStr,"$options":"i" } }, { 'name': searchStr }, { 'type': searchStr }, { 'startDate': searchStr }, { 'endDate': searchStr }, { 'researchers': searchStr }, { 'keywords': searchStr }]};
+        query = { $or: [ { 'researcher': { '$regex': searchStr,"$options":"i" } }, { 'researcherName': searchStr }, { 'name': searchStr }, { 'type': searchStr }, { 'startDate': searchStr }, { 'endDate': searchStr }, { 'researchers': searchStr }, { 'keywords': searchStr }]};
 
     }
     
