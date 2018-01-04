@@ -8,12 +8,14 @@ angular.module("ProjectManagerApp")
                 .then(function(response) {
                     $scope.tweets = response.data;
                     var statisticTweets = [];
-                    var arrayTweetsKey = [];
+                    var arrayTweetsKeyDate = [];
                      for(var i in $scope.tweets) {
                         statisticTweets.push($scope.tweets[i].statistic);
                         
                         var tweetsKey = $scope.tweets[i].key;
-                        arrayTweetsKey.push(tweetsKey);
+                        var tweetsDate = $scope.tweets[i].date;
+                  
+                        arrayTweetsKeyDate.push(tweetsKey + '(' + tweetsDate + ')');
                        
                 }
                     Highcharts.chart('container', {
@@ -22,7 +24,7 @@ angular.module("ProjectManagerApp")
                             spacingBottom: 30
                         },
                         title: {
-                            text: 'Statistics By Tweets'
+                            text: 'Statistics Tweets By Dates'
                         },
                     
                         legend: {
@@ -36,11 +38,11 @@ angular.module("ProjectManagerApp")
                             backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
                         },
                         xAxis: {
-                            categories: arrayTweetsKey
+                            categories: arrayTweetsKeyDate
                         },
                         yAxis: {
                             title: {
-                                text: 'Statistic of Tweets'
+                                text: 'Statistic Tweets'
                             },
                             labels: {
                                 formatter: function () {
