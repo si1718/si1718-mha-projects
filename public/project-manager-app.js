@@ -18,6 +18,9 @@ angular.module("ProjectManagerApp", ["ngRoute"])
             }).when("/graph",{
                 templateUrl: "graph.html",
                 controller : "GraphCtrl"
+            }).when("/graph_tweets",{
+                templateUrl: "graph_tweets.html",
+                controller : "GraphTweetsCtrl"
             });
         
         console.log("App Initialized");            

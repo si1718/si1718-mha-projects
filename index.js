@@ -18,6 +18,7 @@ var BASE_API_PATH = "/api/v1";
 var app = express();
 app.use(cors());
 var db;
+var dbTweets;
 app.use(express.static(path.join(__dirname,"public")));
 app.use(bodyParser.json()); //use default json enconding/decoding
 app.use(helmet()); //improve security
@@ -30,6 +31,7 @@ MongoClient.connect(mdbURL,{native_parser:true},(err,database) =>{
     }
     
     db = database.collection("projects");
+    dbTweets = database.collection("tweets");
     
 
     app.listen(port, () => {
@@ -94,6 +96,30 @@ app.get(BASE_API_PATH + "/projects", function (request, response) {
             console.log("INFO: Sending projects: " + JSON.stringify(projects, 2, null));
 
             response.send(projects);
+
+        }
+
+    });
+
+});
+
+app.get(BASE_API_PATH + "/tweets", function (request, response) {
+
+    console.log("INFO: New GET request to /tweets");
+    
+    dbTweets.find({}).toArray(function (err, tweets) {
+
+        if (err) {
+
+            console.error('WARNING: Error getting data from DB');
+
+            response.sendStatus(500); // internal server error
+
+        } else {
+
+            console.log("INFO: Sending tweets: " + JSON.stringify(tweets, 2, null));
+
+            response.send(tweets);
 
         }
 
